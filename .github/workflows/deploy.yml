@@ -1,31 +1,23 @@
 name: Deploy NextJS Application
 
-on: [workflow_dispatch, push]
-
+on: [workflow_dispatch, push, pull_request]
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [20]
+
     steps:
-      - uses: actions/checkout@v3
-      
-      - name: Setup Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: 20
-          
-      - name: Install dependencies
-        run: npm install --force
-        
-      - name: Build and Export
-        run: |
-          npm run build
-          npm run export
-          
-      - name: Verify out directory
-        run: ls -la out/
-        
-      - name: Deploy to GitHub Pages
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install and Build
+        run: npm install --force && CI=false npm run build
+
+      - name: Deploy
         uses: JamesIves/github-pages-deploy-action@v4.3.3
         with:
-          branch: gh-pages
+          branch: main
           folder: out
