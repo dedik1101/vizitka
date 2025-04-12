@@ -26,13 +26,10 @@ jobs:
         
       - name: Create .nojekyll file
         run: touch ./out/.nojekyll
-        
-      - name: Deploy to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@v4.6.1
+
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@v4.3.3
         with:
           branch: main
           folder: out
           token: ${{ secrets.TOKEN }}
-          target-folder: .
-          clean: true
-          single-commit: true
