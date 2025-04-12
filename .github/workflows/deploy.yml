@@ -32,6 +32,7 @@ jobs:
         with:
           branch: main
           folder: out
+          token: ${{ secrets.TOKEN }}
           target-folder: .
           clean: true
           single-commit: true
